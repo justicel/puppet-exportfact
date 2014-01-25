@@ -1,16 +1,19 @@
 class exportfact {
 
-  $facterdir = $puppetversion ? {
+  $facterdir = $::puppetversion ? {
     /Enterprise/ => '/etc/puppetlabs/facter',
     default      => '/etc/facter'
   }
-  ensure_resource(file, 
-                  $facterdir, 
-                  { ensure => directory })
+  ensure_resource(file,
+    $facterdir,
+      { ensure => directory }
+  )
 
-  $factsdir = "$facterdir/facts.d"
-  ensure_resource(file, 
-                  "$factsdir",
-                  { ensure => directory,
-                    require => File[$facterdir] })
+  $factsdir = "${facterdir}/facts.d"
+  ensure_resource(file,
+    $factsdir,
+      { ensure  => directory,
+        require => File[$facterdir]
+      }
+  )
 }

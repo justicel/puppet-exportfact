@@ -1,25 +1,25 @@
 define exportfact::import (
   $export_env = false,
+  $category   = $name,
 ) {
 
-  $category = $name
-
-  $categoryfile = "$exportfact::factsdir/$category.txt"
+  $categoryfile = "${exportfact::factsdir}/${category}.txt"
 
   ensure_resource('file',
-                  "$categoryfile",
-                  { owner => "root",
-                    group => "root",
-                    mode => "0640" }) 
+    $categoryfile,
+      { owner => 'root',
+        group => 'root',
+        mode  => '0640',
+      }
+  )
 
   if $export_env {
-    Augeas <<| tag == "fact_$category" |>> {
-      context => [ "/files$categoryfile", "/files/etc/environment" ],
-      incl    => [ "$categoryfile", "/files/etc/environment" ],
+    Augeas <<| tag == "fact_${category}" |>> {
+      context => '/files/etc/environment',
+      incl    => '/etc/environment',
     }
   }
   else {
-    Augeas <<| tag == "fact_$category" |>> 
+    Augeas <<| tag == "fact_${category}" |>>
   }
-  
 }
