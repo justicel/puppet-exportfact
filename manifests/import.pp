@@ -1,4 +1,5 @@
 define exportfact::import (
+  $export_env = false,
 ) {
 
   $category = $name
@@ -11,6 +12,13 @@ define exportfact::import (
                     group => "root",
                     mode => "0640" }) 
 
-  Augeas <<| tag == "fact_$category" |>> {
+  if $export_env {
+    Augeas <<| tag == "fact_$category" |>> {
+      context => [ "/files$categoryfile", "/files/etc/environment" ],
+      incl    => [ "$categoryfile", "/files/etc/environment" ],
   }
+  else {
+    Augeas <<| tag == "fact_$category" |>> 
+  }
+  
 }
