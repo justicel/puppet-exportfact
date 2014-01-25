@@ -16,6 +16,7 @@ define exportfact::import (
     Augeas <<| tag == "fact_$category" |>> {
       context => [ "/files$categoryfile", "/files/etc/environment" ],
       incl    => [ "$categoryfile", "/files/etc/environment" ],
+    }
   }
   else {
     Augeas <<| tag == "fact_$category" |>> 
