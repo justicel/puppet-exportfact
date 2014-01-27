@@ -13,18 +13,14 @@ define exportfact::import (
       }
   )
 
-  if $export_env {
-    $export_content = {
+  if $export_env { 
+    Augeas <<| tag == "fact_${category}" |>> {
       context => '/files/etc/environment',
       incl    => '/etc/environment',
     }
   }
   else {
-    $export_content = { }
-  }
-
-  Augeas <<| tag == "fact_${category}" |>> {
-    $export_content,
+    Augeas <<| tag == "fact_${category}" |>> 
   }
 
 }
