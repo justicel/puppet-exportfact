@@ -20,7 +20,7 @@ define exportfact::import (
     }
   }
   else {
-    $export_content
+    $export_content = { }
   }
 
   Augeas <<| tag == "fact_${category}" |>> {
