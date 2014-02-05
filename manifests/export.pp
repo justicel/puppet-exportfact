@@ -1,6 +1,7 @@
 define exportfact::export (
   $value,
-  $category = 'fact',
+  $category  = 'fact',
+  $fact_name = $name,
 ) {
 
   $categoryfile = "${exportfact::factsdir}/${category}.txt"
@@ -13,11 +14,11 @@ define exportfact::export (
       }
   )
 
-  @@augeas { "fact_${name}":
+  @@augeas { "fact_${fact_name}":
     context => "/files${categoryfile}",
     incl    => $categoryfile,
     lens    => 'Shellvars.lns',
-    changes => "set ${name} ${value}",
+    changes => "set ${fact_name} ${value}",
     require => [Class['exportfact'],File[$categoryfile]],
     tag     => "fact_${category}"
   }
